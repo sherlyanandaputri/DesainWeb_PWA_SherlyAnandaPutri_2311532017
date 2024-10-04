@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sherly Ananda Putri</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="manifest" href="/manifest.json">
+
+</head>
+<body>
+    <header class="navbar-container">
+        <div class="logo">
+            <h2>Sherly Ananda Putri</h2>
+        </div>
+        <nav class="nav-list">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="content">
+            <div class="content-description">
+                <h1 class="title">Ini Halaman Home</h1>
+                <p>Selamat datang di halaman Home Saya, Sherly Ananda Putri.
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <button id="installBtn" style="display:none;">Install App</button>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(registration => {
+        console.log('Service Worker registered with scope:', registration.scope);
+      })
+      .catch(error => {
+        console.error('Service Worker registration failed:', error);
+      });
+  });
+}
+
+      </script>    
+
+
+      <script>
+        let deferredPrompt;
+        const installBtn = document.getElementById('installBtn'); 
+      
+        window.addEventListener('beforeinstallprompt', (e) => {
+          // Cegah browser langsung menampilkan prompt
+          e.preventDefault();
+          // Simpan event untuk digunakan nanti
+          deferredPrompt = e;
+          // Tampilkan tombol install
+          installBtn.style.display = 'block';
+      
+          installBtn.addEventListener('click', () => {
+            // Sembunyikan tombol install
+            installBtn.style.display = 'none';
+            // Tampilkan prompt instalasi
+            deferredPrompt.prompt();
+            // Tunggu respons dari pengguna
+            deferredPrompt.userChoice.then((choiceResult) => {
+              if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the install prompt');
+              } else {
+                console.log('User dismissed the install prompt');
+              }
+              deferredPrompt = null; // Reset deferredPrompt setelah respons
+            });
+          });
+        });
+      </script>
+        
+</body>
+</html>
